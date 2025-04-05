@@ -31,3 +31,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm run test
     - run: npm run test:cov
+    - name: SonarQubeScan
+      uses: SonarSource/sonarqube-scan-action@v4
+      env: 
+          SONAR_TOKEN: 'c31c0b9092baf24ccb7f7a9b1d1c8bec02f5e273'
