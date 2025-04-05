@@ -37,3 +37,4 @@ jobs:
         organization: 'mauricio-fuentes'
         projectKey: 'Mauricio-Fuentes_service-recipe'
         token: 'c31c0b9092baf24ccb7f7a9b1d1c8bec02f5e273'
+        sonar_host_url: 'https://sonarcloud.io'
