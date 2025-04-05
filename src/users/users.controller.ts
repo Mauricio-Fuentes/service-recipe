@@ -17,7 +17,7 @@ export class UsersController {
   async findOne(@Param('id') id: number): Promise<User> {
     const user = await this.usersService.findOne(id);
     if (!user) {
-      throw new Error('User not found..!');
+      throw new Error('User not found...!');
     } else {
       return user;
     }
@@ -41,7 +41,7 @@ export class UsersController {
     //handle the error if user not found
     const user = await this.usersService.findOne(id);
     if (!user) {
-      throw new Error('User not found..!');
+      throw new Error('User not found...!');
     }
     return this.usersService.delete(id);
   }
