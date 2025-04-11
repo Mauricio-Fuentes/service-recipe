@@ -39,5 +39,5 @@ jobs:
         token: 'c31c0b9092baf24ccb7f7a9b1d1c8bec02f5e273'
         sonar_host_url: 'https://sonarcloud.io'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
