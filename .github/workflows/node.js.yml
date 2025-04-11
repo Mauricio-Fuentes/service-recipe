@@ -36,7 +36,7 @@ jobs:
       with:
           projectBaseDir: .
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_SCANNER_OPTS: >
             -Dsonar.projectKey=Mauricio-Fuentes_service-recipe
@@ -44,4 +44,3 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.sources=src
             -Dsonar.exclusions=node_modules/**
-            
