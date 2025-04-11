@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main" ]
 
@@ -31,3 +31,16 @@ jobs:
     - run: npm run build --if-present
     - run: npm run test
     - run: npm run test:cov
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v2
+      with:
+          projectBaseDir: .
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_SCANNER_OPTS: >
+            -Dsonar.projectKey=Mauricio-Fuentes_service-recipe
+            -Dsonar.organization=mauricio-fuentes
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src
+            -Dsonar.exclusions=node_modules/**
