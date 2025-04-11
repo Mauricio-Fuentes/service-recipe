@@ -31,13 +31,15 @@ jobs:
     - run: npm run build --if-present
     - run: npm run test
     - run: npm run test:cov
-    - name: SonarQube Cloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v2
       with:
-        organization: 'mauricio-fuentes'
-        projectKey: 'Mauricio-Fuentes_service-recipe'
-        token: 'c31c0b9092baf24ccb7f7a9b1d1c8bec02f5e273'
-        sonar_host_url: 'https://sonarcloud.io'
+          projectBaseDir: .
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_SCANNER_OPTS: >
+            -Dsonar.projectKey=Mauricio-Fuentes_service-recipe
+            -Dsonar.organization=mauricio-fuentes
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=.
