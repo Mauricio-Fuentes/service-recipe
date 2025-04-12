@@ -55,8 +55,8 @@ describe('UsersController', () => {
   
       it('should throw NotFoundException if user not found', async () => {
         mockUsersService.findOne.mockResolvedValue(null);
-  
         await expect(usersController.findOne(999)).rejects.toThrow("User not found");
+        //expect(usersController.findOne(999)).toBe("User not found");
       });
     });
   });
