@@ -9,7 +9,7 @@ export class UsersController {
   //get all users
   @Get()
   async findAll(): Promise<User[]> {
-    return await this.usersService.findall();
+    return await this.usersService.findAll();
   }
 
   //get one user
@@ -17,7 +17,7 @@ export class UsersController {
   async findOne(@Param('id') id: number): Promise<User> {
     const user = await this.usersService.findOne(id);
     if (!user) {
-      throw new Error('User not found...!');
+      throw new Error('User not found');
     } else {
       return user;
     }
