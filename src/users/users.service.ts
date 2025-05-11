@@ -16,9 +16,16 @@ export class UsersService {
   }
 
   // get one user
+  //async findOne(id: number): Promise<User> {
+   // return await this.usersRepository.findOne({ where : { id } });
+  //}
   async findOne(id: number): Promise<User> {
-    return await this.usersRepository.findOne({ where : { id } });
+  const user = await this.usersRepository.findOne({ where: { id } });
+  if (!user) {
+    throw new Error('User not found');
   }
+  return user;
+}
 
   //create user
   async create(user: User): Promise<User> {
