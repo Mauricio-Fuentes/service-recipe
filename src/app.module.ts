@@ -5,6 +5,11 @@ import { UsersModule } from './users/users.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import * as dotenv from 'dotenv';
+dotenv.config();
+console.log('DB_TYPE:', process.env.DB_TYPE); // Verificar si la variable DB_TYPE está cargada correctamente
+console.log('PG_HOST:', process.env.PG_HOST); // Verificar la variable PG_HOST
+console.log('PG_PORT:', process.env.PG_PORT); // Verificar la variable PG_PORT
 
 @Module({
   imports: [
