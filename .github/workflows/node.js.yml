@@ -45,3 +45,4 @@ jobs:
             -Dsonar.sources=src
             -Dsonar.exclusions=node_modules/**
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
