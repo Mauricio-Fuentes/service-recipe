@@ -20,9 +20,4 @@ describe('AppController', () => {
     });
   });
 
-  describe('root', () => {
-    it('should return "Service Up!"', () => {
-      expect(appController.getHealthcheck()).toBe('Service Up!');
-    });
-  });
 });
