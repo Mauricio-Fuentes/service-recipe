@@ -101,3 +101,17 @@ jobs:
 
       - name: Logout from the GitHub Packages Docker Registry
         run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker logout ${{env.REGISTRY}}"
+      
+      - name: SSH into server and pull PostgreSQL Docker image
+        run: |
+          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} << 'EOF'
+            docker pull postgres
+            docker rm -f my_postgres || true
+            docker run -d \
+              --name db-postgre \
+              -e POSTGRES_USER=postgres \
+              -e POSTGRES_PASSWORD=postgres \
+              -e POSTGRES_DB=postgres \
+              -p 5432:5432 \
+              postgres
+          EOF
