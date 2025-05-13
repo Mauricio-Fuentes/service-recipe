@@ -1,11 +1,15 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
   pull_request:
     branches: [ "main" ]
+
+env:
+  REGISTRY: docker.io
+  REPO: mafumo/recipe
+  CONTAINER: node-service
+  USR: mafumo
+  PWD: m@fumo1412
 
 jobs:
   build:
@@ -44,3 +48,56 @@ jobs:
             -Dsonar.exclusions=node_modules/**
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v2
+        with:
+          #username: ${{ github.actor }}
+          #password: ${{ secrets.TOKEN_GITHUB }}
+          username: ${{ env.USR }}
+          password: ${{ env.PWD }}
+          registry: ${{ env.REGISTRY }}
+          repository: ${{ env.REPO }}
+          tag: ${{ env.IMAGE_TAG }}
+  deploy:
+    needs: [push_to_registry]
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH connection
+        uses: webfactory/ssh-agent@v0.5.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Update Ubuntu - Docker
+        run: |
+           ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} << 'EOF'
+             sudo apt-get update
+             sudo apt-get install -y docker.io
+             sudo systemctl enable --now docker
+           EOF
+           
+      - name: Login to the GitHub Packages Docker Registry
+        run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker login ${{env.REGISTRY}} -u ${{env.USR}} -p ${{env.PWD}}"
+        #run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker login ${{env.REGISTRY}} -u ${{github.actor}} -p ${{secrets.GITHUB_TOKEN}}"
+
+      - name: Pull latest container
+        run: |
+          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker pull ${{env.REGISTRY}}/${{env.REPO}}:1.0.0"
+
+      - name: Start docker container
+        run: |
+          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker run -p 3000:8080 -d --name=${{env.CONTAINER}} ${{env.REGISTRY}}/${{env.REPO}}:1.0.0"
+
+      - name: Logout from the GitHub Packages Docker Registry
+        run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker logout ${{env.REGISTRY}}"
