@@ -92,7 +92,7 @@ jobs:
         #run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker login ${{env.REGISTRY}} -u ${{github.actor}} -p ${{secrets.GITHUB_TOKEN}}"
       
       - name: Create Network
-        run: ssh "docker network create app-network"
+        run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker network create app-network"
 
       - name: SSH into server and pull PostgreSQL Docker image
         run: |
