@@ -115,7 +115,7 @@ jobs:
 
       - name: Start docker container
         run: |
-          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker run -p 3000:8080 --network app-network -d --name=${{env.CONTAINER}} ${{env.REGISTRY}}/${{env.REPO}}:1.0.0"
+          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker run -p 3000:3000 --network app-network -d --name=${{env.CONTAINER}} ${{env.REGISTRY}}/${{env.REPO}}:1.0.0"
 
       - name: Logout from the GitHub Packages Docker Registry
         run: ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "docker logout ${{env.REGISTRY}}"
