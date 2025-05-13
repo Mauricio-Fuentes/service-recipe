@@ -100,7 +100,7 @@ jobs:
             docker pull postgres
             docker rm -f my_postgres || true
             docker run -d \
-              --name db-postgre \
+              --name postgres \
               --network app-network \
               -e POSTGRES_USER=postgres \
               -e POSTGRES_PASSWORD=postgres \
