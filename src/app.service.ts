@@ -6,7 +6,4 @@ export class AppService {
     return 'Hello World!';
   }
   
-  getHealthcheck(): string {
-    return 'Service Up!';
-  }
 }
