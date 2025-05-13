@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Recipe } from './recipes/recipe.entity';
+import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -23,9 +25,10 @@ console.log('PG_PORT:', process.env.PG_PORT); // Verificar la variable PG_PORT
       username: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [User, Recipe],//entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    UsersModule, RecipesModule
   ],
   controllers: [AppController],
   providers: [AppService],
